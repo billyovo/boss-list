@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+<style>
+    html, body{
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding:0;
+    background-color:  rgba(44, 94, 160, 0.3);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+#sidebar{
+    position: absolute;
+    background: rgb(222, 242, 241);
+    height: 100vh;
+    width: 25%;
+    left: 0px;
+    display: none;
+    top: 0;
+    z-index: 1;
+}
+
+.sidebar_header{
+    width: 100%;
+    background-color: rgb(43,122,120);
+    z-index: 1;
+}
+
+#header{
+    background-color: rgb(58,175,169);
+    width: 100%;
+    padding-bottom: 5px;
+    color: white;
+    
+}
+
+#header span{
+    position: relative;
+    font-size: 40px;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+#sidebar ul{
+    cursor: pointer;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar ul li{
+    margin: 20px;
+    font-size: 20px;    
+}
+
+#sidebar ul li a{
+    text-decoration: none;
+    color: rgb(66, 11, 66);
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+}
+
+#sidebar li:hover{
+    background-color: rgb(186, 209, 238);
+}
+
+.sidebar_header:hover{
+    background-color: rgb(34, 97, 95);
+}
+
+.container{
+    display: block;
+    width: 100%;
+    height: 50%;
+}
+
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+    $("#header > span").click(function(){
+        $("#sidebar").show();
+    })
+
+    $(".sidebar_header > h1").click(function(){
+        $("#sidebar").hide();  
+       })
+    })
+
+</script>
+<html>
+    <body>
+        <nav id="header">
+            <span>☰</span>
+            <h1 style="color: white; padding: 0; margin:0; padding-left: 12px ">How are you</h1>
+        </nav>
+        <nav id="sidebar">
+                <div class="sidebar_header">
+                    <h1 style="color: white; padding: 15px; margin: 0; cursor: pointer"> ✖  Close</h1>
+                </div>
+                <ul>
+                    <li><a href="index.html">Check</a></li>
+                    <li><a href="check.html">Input</a></li>
+                    <li><a href="timetable.html">See timetable</a></li>
+                </ul>
+        </nav>
+        <div class="container">
+            <img src='https://i.imgur.com/CVBkjVQ.png' alt="broken">
+    </div>
+    <span style="font-size: 40px; display: block; text-align: center;">If you cannot see the image, do a reflect on yourself.</span>
+    </body>
+</html>
