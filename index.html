@@ -3,329 +3,221 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 <style>
     html, body{
-        min-height: 100%;
-        min-width: 100%;
-        margin: 0;
-        padding:0;
-        background-color:  rgba(44, 94, 160, 0.3);
-        font-family: 'Noto Sans JP', sans-serif;
-    }
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding:0;
+    background-color:  rgba(44, 94, 160, 0.3);
+    font-family: 'Noto Sans JP', sans-serif;
+}
 
-    #sidebar{
-        position: absolute;
-        background: rgb(222, 242, 241);
-        height: 100vh;
-        width: 25%;
-        left: 0px;
-        display: none;
-        top: 0;
-        z-index: 1;
-    }
+#sidebar{
+    position: absolute;
+    background: rgb(222, 242, 241);
+    height: 100vh;
+    width: 25%;
+    left: 0px;
+    display: none;
+    top: 0;
+    z-index: 1;
+}
 
-    .sidebar_header{
-        width: 100%;
-        background-color: rgb(43,122,120);
-        z-index: 1;
-    }
+.sidebar_header{
+    width: 100%;
+    background-color: rgb(43,122,120);
+    z-index: 1;
+}
 
-    #header{
-        background-color: rgb(58,175,169);
-        width: 100%;
-        padding-bottom: 5px;
-        color: white;
-        
-    }
-
-    #header span{
-        position: relative;
-        font-size: 40px;
-        padding-top: 10px;
-        padding-left: 10px;
-        cursor: pointer;
-    }
-
-    #sidebar ul{
-        cursor: pointer;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    #sidebar ul li{
-        padding: 20px;
-        font-size: 20px;    
-    }
-
-    #sidebar ul li a{
-        text-decoration: none;
-        color: rgb(66, 11, 66);
-    }
-
-    #sidebar li:hover{
-        background-color: rgb(186, 209, 238);
-    }
-
-    .sidebar_header:hover{
-        background-color: rgb(34, 97, 95);
-    }
-
-    .content_container{
-        position: fixed;
-        float: left;
-        display: flex;
-        width: 100%;
-        height: 100%;
-    }
-
-    .form_container{
-        font-size: 15px;
-        height: 100%;
-        width: 100%;
-    }
-
-    .display_container{
-        width: 100%;
-        height: 100%;
-    }
-
-    .form_container span{
-        font-size: 20px;
-    }
-
-    input{
-        margin-top: 10px;
-        padding-bottom: 10px;
-        padding-right: 40px;
-        width: 50%;
-    }
-
-    .form_style{
-        background-color:brown;
-        padding: 20px;
-        color: white;
-    }
-
-    #add{
-        float: right;
-        position: relative;
-        background-color: rgb(40, 194, 40);
-        text-align: center;
-        padding: 20px 100px;
-        cursor: pointer;
-    }
-
-    #add:active{
-        padding: 18px 98px;
-    }
-
-    #add:hover{
-        background-color:rgb(11, 165, 11);
-    }
-
-    .boss_select{
-        display: flex;
-        height: 15%;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .boss_select span{
-        width: 100%;
-        height: 100%;
-        color: white;
-        font-size: 50px;
-        background-color: rgb(194, 194, 194);
-        cursor: pointer;
-        
-    }
-
-    .boss_select span:hover{
-        font-size: 55px;
-    }
-
-    #save{
-        display: flex;
-        height: 10%;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color:   rgb(40, 194, 40);
-        cursor: pointer;
-        border-top: 1px solid transparent;
-        color: white;
-    }
-
-    #delete{
-        display: flex;
-        height: 10%;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color:  red;
-        cursor: pointer;
-        border-top: 1px solid transparent;
-        color: white;
-    }
-
-    #save:hover{
-        background-color: rgb(11, 165, 11);
-        font-size: 18px;
-    }
-
-    #delete:hover{
-        background-color: rgb(206, 7, 7);
-        font-size: 18px;
-    }
-
-    .playerinlist{
-        display: flex;
-        height: 35px;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-
-    .playerinlist span{
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        font-size: 20px;
-    }
-
-    .player_list{
-        height: 100%;
-        width: 100%;
-    }
-
-    .title{
-        display: flex;
-        background-color: lightblue;
-        border-bottom: black solid 1px;
-        box-sizing: border-box;
-        text-align: center;
-    }
-
-    .title span{
-        width: 100%;
-        font-size: 30px;
-    }
-
+#header{
+    background-color: rgb(58,175,169);
+    width: 100%;
+    padding-bottom: 5px;
+    color: white;
     
+}
+
+#header span{
+    position: relative;
+    font-size: 40px;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+#sidebar ul{
+    cursor: pointer;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar ul li{
+    margin: 20px;
+    font-size: 20px;    
+}
+
+#sidebar ul li a{
+    text-decoration: none;
+    color: rgb(66, 11, 66);
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+}
+
+#sidebar li:hover{
+    background-color: rgb(186, 209, 238);
+}
+
+.sidebar_header:hover{
+    background-color: rgb(34, 97, 95);
+}
+
+.content_container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.content{
+    width: 100%;
+    height: 100%;
+}
+
+.content span{
+    text-align: center;
+    display: block;
+    line-height: 10vh;
+    height: 10vh;
+    font-size: 50px;
+    color: white;
+}
+
+
+
+.content li{
+    width: 100%;
+    height: 20px;
+    padding: 5px;
+    font-size: 20px;
+}
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-
-    var bosses = [];
-    var data = [];
-
-    $(document).ready(function() {
-        let list = localStorage.getItem("bossList");
-        list = JSON.parse(list);
-        list.forEach(player => {
-            $(".player_list").append('<div class="playerinlist"><span>'+player.Name+'</span><span>'+player.Bosses[0]+' '+player.Bosses[1]+'</span></div>');
-        });
-        data = list;
-    })
+    function bossColor(boss,id){
+        switch(boss){
+            case "A":
+                $(id).css("background-color","rgb(204, 253, 255)")
+                break;
+            case "B":
+                $(id).css("background-color","rgb(50, 179, 108)")
+                break;
+            case "C":
+                $(id).css("background-color","rgb(130, 29, 130)")
+                break;
+            case "D":
+                $(id).css("background-color","blue")
+                break;
+            case "E":
+                $(id).css("background-color","lightgreen")
+                break;
+            case "F":
+                $(id).css("background-color","rgb(38, 179, 222)")
+                break; 
+            case "G":
+                $(id).css("background-color","rgb(240, 229, 26)")
+                break;   
+        }
+    }
 
     $(document).ready(function(){
+    var timetable = new Array(7);
+    timetable[0] = ["E","F","G","A"];
+    timetable[1] = ["A","B","C","D"];
+    timetable[2] = ["E","F","G","A"];
+    timetable[3] = ["B","C","D","E"];
+    timetable[4] = ["F","A","B","C"];
+    timetable[5] = ["D","E","F","G"];
+    timetable[6] = ["A","B","C","D"];
 
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+
+    today = new Date();
+    var today_text = weekday[today.getDay()];
+
+    var time_hour = today.getHours();
+    var time_min = today.getMinutes();
+    var time_compare = time_hour*60 + time_min;
+
+    var boss_hour = 19;
+    var boss_min = 30;
+    const boss01 = 19*60+30;
+    const boss02 = 21*60+30;    
+
+    if(time_compare>boss01&&time_compare<boss02){
+        boss_hour = 21;
+    }
+
+    if(boss_hour==19){
+        $("#boss01").html(timetable[today.getDay()][0])
+        $("#boss02").html(timetable[today.getDay()][1])
+    }
+    else{
+        $("#boss01").html(timetable[today.getDay()][2])
+        $("#boss02").html(timetable[today.getDay()][3])
+    }
+
+    bossColor($("#boss01").html(),"#boss01");
+    bossColor($("#boss02").html(),"#boss02");
+
+    //read and write players
+    let list = localStorage.getItem("bossList");
+        list = JSON.parse(list);
+
+    var boss01_player = [];
+    var boss02_player = [];
+
+    if(list!=null){ //null is amazing, break the entire website
+    list.forEach(player => {
+       if($("#boss01").html() == player.Bosses[0] || $("#boss01").html() == player.Bosses[1]){
+           boss01_player.push(player.Name);
+       } 
+
+       if($("#boss02").html() == player.Bosses[0] || $("#boss02").html() == player.Bosses[1]){
+           boss02_player.push(player.Name);
+       } 
+    });
+    boss01_player.sort();
+    boss02_player.sort();
+
+    boss01_player.forEach(element =>{
+        $("#list01_start").append("<li>"+element+"</li>")
+    })
+
+    boss02_player.forEach(element =>{
+        $("#list02_start").append("<li>"+element+"</li>")
+    })
+}
+    //sidebar functions
     $("#header > span").click(function(){
         $("#sidebar").show();
     })
 
     $(".sidebar_header > h1").click(function(){
         $("#sidebar").hide();  
+       })
     })
 
-    $(".boss_select > span").click(function(){
-        bosses.push($(this).attr("id"));
-        if(!($(this).hasClass("clicked"))){
-        switch ($(this).attr("id")){
-            case 'A':
-                $(this).css("background-color","white");
-                $(this).addClass("clicked");
-                break; 
-            case 'B':
-                $(this).css("background-color","blue");
-                $(this).addClass("clicked");
-                break;
-            case 'C':
-                $(this).css("background-color","black");
-                $(this).addClass("clicked");
-                break;
-            case 'D':
-                $(this).css("background-color","green");
-                $(this).addClass("clicked");
-                break;
-            case 'E':
-                $(this).css("background-color","purple");
-                $(this).addClass("clicked");
-                break;
-            case 'F':
-                $(this).css("background-color","lightgreen");
-                $(this).toggleClass("clicked");
-                break;    
-        }
-    }
-    else{
-        $(this).css("background-color","rgb(194, 194, 194)");
-        $(this).removeClass("clicked");
-        bosses = bosses.filter(bosses => bosses !== $(this).attr("id"));
-    }
-    })
-
-    function isValid(player){
-        if(bosses.length>2){
-            alert("YOU FIGHT SO MANY BOSSES AR?");
-            return false;
-        }
-        if($("#inputName").val()===""){
-            alert("WHO FIGHT BOSSES AR YOU AR? NO ONE KNOW YOU WOR");
-            return false;
-        }
-
-        if(data.find(element => element.Name === player.Name)){
-            alert(player.Name+" ALREADY EXIST LA WOR DIM AR PLAY AR?");
-            return false;
-        }
-        return true;
-    }
-
-    $("#add").click(function(){
-        let player = {
-            Name: $("#inputName").val(),
-            Bosses: bosses  
-        }
-        if(isValid(player)){
-            
-        
-        data.push(player);
-        $(".clicked").removeClass("clicked");
-        $(".boss_select > span").css("background-color","rgb(194, 194, 194)");
-        document.getElementById("inputName").value = "";
-        bosses = [];
-        $(".player_list").append('<div class="playerinlist"><span>'+player.Name+'</span><span>'+player.Bosses[0]+' '+player.Bosses[1]+'</span></div>');
-    }
-    }) 
-
-    $("#save").click(function(){
-        localStorage.setItem("bossList",JSON.stringify(data));
-        alert("saved~");    
-    })
-
-    $("#delete").click(function(){
-        localStorage.removeItem("bossList");
-        data = [];
-        $(".playerinlist").remove();
-        alert("BOOM you deleted everything");
-    })
-
-})
 </script>
-
 <html>
     <body>
         <nav id="header">
@@ -337,37 +229,28 @@
                     <h1 style="color: white; padding: 15px; margin: 0; cursor: pointer"> ✖  Close</h1>
                 </div>
                 <ul>
-                    <li><a href="index.html">Input and Removal</a></li>
-                    <li><a href="#">Check</a></li>
-                    <li><a href="#">See timetable</a></li>
+                    <li><a href="index.html">Check</a></li>
+                    <li><a href="check.html">Input</a></li>
+                    <li><a href="timetable.html">See timetable</a></li>
                 </ul>
         </nav>
 
-        <h2 style="margin-left: 5px; margin:0; color:black; border: 1px solid transparent; box-sizing: border-box; padding: 10px">Input a handsome guy here:</h2>
-        <div class="content_container">
-        <div class="form_container">
-            <div class="form_style">
-            <span>Name: </span><span id="add">Add</span>
-            <form>
-                <input type="text" placeholder="gay legs" id="inputName">
-            </form>
-        </div>
-        <div class="boss_select">
-            <span id="A">A</span>
-            <span id="B">B</span>
-            <span id="C">C</span>
-            <span id="D">D</span>
-            <span id="E">E</span>
-            <span id="F">F</span>
-        </div>
-        <span id="save">Save!</span>
-        <span id="delete">Burn the current list!</span>
-        </div>
+    <div class="content_container">
+        <div class="content" id="left">
+            <span id="boss01">A</span>
+            <ol id="list01_start">
 
-        <div class="display_container">
-            <div class="title"><span>Name</span><span>Bosses</span></div>
-            <div class="player_list"></div>
+            </ol>
         </div>
+        <div class="content" id="right">
+            <span id="boss02">B</span>
+            <ol id="list02_start">
+
+            </ol>
+        </div>
+    </div>
+    <div class="footer" style="text-align: center;">
+        hi
     </div>
     </body>
 </html>
