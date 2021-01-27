@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+
 <style>
     html, body{
     min-height: 100%;
     min-width: 100%;
     margin: 0;
     padding:0;
-    background-color:  rgba(44, 94, 160, 0.3);
+    background-color:  rgb(191, 206, 226);
     font-family: 'Noto Sans JP', sans-serif;
 }
 
@@ -84,7 +86,7 @@
     height: 100%;
 }
 
-.content span{
+.content .boss_title{
     text-align: center;
     display: block;
     line-height: 10vh;
@@ -93,14 +95,42 @@
     color: white;
 }
 
-
-
 .content li{
     width: 100%;
     height: 20px;
-    padding: 5px;
+    padding: 10px;
     font-size: 20px;
+    list-style-image: url(assets/penguin.svg);
 }
+
+.copy{
+    resize: none;
+    display: block;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.clipboard{
+    background-color: rgb(196, 196, 196);
+    border: 1px solid rgb(235, 233, 233);
+    padding: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.tooltip{
+    display: none;
+    background-color: rgba(0,0,0,0.7);
+    color: white; 
+    padding: 10px 60px;
+    margin: 3px;
+    border-radius: 10px;
+}
+
+
+
+
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -133,6 +163,8 @@
     }
 
     $(document).ready(function(){
+
+    //loads of constants and time
     var timetable = new Array(7);
     timetable[0] = ["A","B","C","D"];
     timetable[1] = ["E","F","G","A"];
@@ -163,17 +195,23 @@
     const boss01 = 19*60+30;
     const boss02 = 21*60+30;    
 
-    if(time_compare>boss01&&time_compare<boss02){
+    var day = today.getDay();
+
+    if(time_compare>boss02){ //after 9:30pm set tomorrow
+        day++;
+        day%=6;
+    }
+    if(time_compare>boss01&&time_compare<boss02){ //between 7:30 - 9:30 set next boss at 9:30
         boss_hour = 21;
     }
 
-    if(boss_hour==19){
-        $("#boss01").html(timetable[today.getDay()][0])
-        $("#boss02").html(timetable[today.getDay()][1])
+    if(boss_hour==19){  //730
+        $("#boss01").html(timetable[day][0])
+        $("#boss02").html(timetable[day][1])
     }
-    else{
-        $("#boss01").html(timetable[today.getDay()][2])
-        $("#boss02").html(timetable[today.getDay()][3])
+    else{               //930
+        $("#boss01").html(timetable[day][2])
+        $("#boss02").html(timetable[day][3])
     }
 
     bossColor($("#boss01").html(),"#boss01");
@@ -188,11 +226,11 @@
 
     if(list!=null){ //null is amazing, break the entire website
     list.forEach(player => {
-       if($("#boss01").html() == player.Bosses[0] || $("#boss01").html() == player.Bosses[1]){
+       if($("#boss01").html() == player.Bosses[0]&&!player.Hit[0] || $("#boss01").html() == player.Bosses[1]&&!player.Hit[1]){
            boss01_player.push(player.Name);
        } 
 
-       if($("#boss02").html() == player.Bosses[0] || $("#boss02").html() == player.Bosses[1]){
+       if($("#boss02").html() == player.Bosses[0]&&!player.Hit[0] || $("#boss02").html() == player.Bosses[1]&&!player.Hit[1]){
            boss02_player.push(player.Name);
        } 
     });
@@ -207,6 +245,26 @@
         $("#list02_start").append("<li>"+element+"</li>")
     })
 }
+
+    //super lazy text area
+    $("#boss01_text").html(boss01_player.toString().replaceAll(","," ")+","+boss_hour+":"+boss_min+"有空打"+":"+$("#boss01").html()+"boss:嗎~?");
+    $("#boss02_text").html(boss02_player.toString().replaceAll(","," ")+","+boss_hour+":"+boss_min+"有空打"+":"+$("#boss02").html()+"boss:嗎~?");
+
+    $("#clipboard01").click(function(){
+        $("#boss01_text").select(); 
+        document.execCommand("copy");
+        $("#tooltip01").css("display","inline-block");
+        $("#tooltip01").fadeOut(1000);
+
+    })
+
+    $("#clipboard02").click(function(){
+        $("#boss02_text").select(); 
+        document.execCommand("copy");
+        $("#tooltip02").css("display","inline-block");
+        $("#tooltip02").fadeOut(1000);
+    })
+
     //sidebar functions
     $("#header > span").click(function(){
         $("#sidebar").show();
@@ -219,6 +277,11 @@
 
 </script>
 <html>
+    <head>
+        <title>Boss Related things</title>
+    </head>
+
+
     <body>
         <nav id="header">
             <span>☰</span>
@@ -230,27 +293,31 @@
                 </div>
                 <ul>
                     <li><a href="index.html">Check</a></li>
-                    <li><a href="check.html">Input</a></li>
+                    <li><a href="input.html">Input</a></li>
+                    <li><a href="hit.html">Hitted lor!!</a></li>
                     <li><a href="timetable.html">See timetable</a></li>
                 </ul>
         </nav>
 
     <div class="content_container">
         <div class="content" id="left">
-            <span id="boss01">A</span>
-            <ol id="list01_start">
-
-            </ol>
+            <span id="boss01" class="boss_title">A</span>
+            <ul id="list01_start"></ul>
+            <h1 style="color: black">Super Laziness:</h1>
+            <textarea readonly id="boss01_text" class="copy">
+                nothing here~
+            </textarea><br>
+            <span class="clipboard" id="clipboard01">copy to clipboard!</span><span class="tooltip" id="tooltip01">Copied!</span>
         </div>
         <div class="content" id="right">
-            <span id="boss02">B</span>
-            <ol id="list02_start">
-
-            </ol>
+            <span id="boss02" class="boss_title">B</span>
+            <ul id="list02_start"></ul>
+            <h1 style="color: black">Super Laziness:</h1>
+            <textarea readonly id="boss02_text" class="copy">
+                nothing here~
+            </textarea><br>
+            <span class="clipboard" id="clipboard02">copy to clipboard!</span><span class="tooltip" id="tooltip02">Copied!</span>
         </div>
-    </div>
-    <div class="footer" style="text-align: center;">
-        hi
     </div>
     </body>
 </html>
