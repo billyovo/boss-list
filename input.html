@@ -221,6 +221,8 @@
         cursor: pointer;
     }
 
+
+
   
   
 
@@ -386,10 +388,12 @@
 
 
     $("#delete").click(function(){
+        var reply = window.confirm("Click confirm to burn the forest");
+        if(reply){
         localStorage.removeItem("bossList");
         data = [];
         $(".playerinlist").remove();
-        alert("BOOM you deleted everything");
+        }
     })
 
     $(".deleteRecord").click(function(){
@@ -439,6 +443,9 @@
     </head>
     
     <body>
+    <div class="modal">
+    </div>
+
         <nav id="header">
             <span>☰</span>
             <h1 style="color: white; padding: 0; margin:0; padding-left: 12px ">How are you</h1>
@@ -455,7 +462,7 @@
                 </ul>
         </nav>
 
-        <h2 style="margin-left: 5px; margin:0; color:black; border-bottom: 1px solid black; box-sizing: border-box; padding: 10px; display:inline-block; font-size: 30p;">Input a handsome guy here:</h2>
+        <h2 style="margin-left: 5px; margin:0; color:black; padding: 10px; display:inline-block; font-size: 30p;">Input a handsome guy here:</h2>
         <span class="selector">A</span>
         <div class="content_container">
         <div class="form_container">
