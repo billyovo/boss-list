@@ -117,7 +117,7 @@
 
 .boss01Data, .boss02Data{
     cursor: pointer;
-    background-color: gray;
+    background-color: rgb(155, 153, 153);
 }
 
 </style>
@@ -170,7 +170,6 @@
         $(".Name").append("<span class='NameData "+numData+"' style='display:block;'>"+player.Name+"</span>");
         $(".boss01").append("<span class='boss01Data "+numData+"'' style='display:block;'>"+player.Bosses[0]+"</span>");
         $(".boss02").append("<span class='boss02Data "+numData+"'' style='display:block;'>"+player.Bosses[1]+"</span>");
-        $(".addButton").append("<span class='button "+numData+"'' style='display:block;'>add</span>");
 
         if(player.Hit[0]){
             $('.boss01Data.'+numData).addClass("Hitted");
@@ -200,7 +199,7 @@
        $(this).toggleClass('Hitted');
        //colours
        bossColor($(this).html(),this);
-       $(".Hitted").css('background-color','gray');
+       $(".Hitted").css('background-color','rgb(155, 153, 153)');
        localStorage.setItem("bossList",JSON.stringify(list));
     })
 
@@ -210,7 +209,7 @@
        list[targetPlayer].Hit[1] = !list[targetPlayer].Hit[1];
        $(this).toggleClass('Hitted');
        bossColor($(this).html(),this);
-       $(".Hitted").css('background-color','gray');
+       $(".Hitted").css('background-color','rgb(155, 153, 153)');
        localStorage.setItem("bossList",JSON.stringify(list));
     })
 
@@ -245,7 +244,6 @@
         <span>Name</span>
         <span>Boss1</span>
         <span>Boss2</span>
-        <span>Add and select</span>
     </div>
     <div class="container">
         <div class="column Name" style="color: black;">
@@ -255,9 +253,6 @@
     
         </div>
         <div class="column boss02">
-
-        </div>
-        <div class="column addButton">
 
         </div>
     </div>

@@ -188,6 +188,7 @@
     .player_list{
         height: 100%;
         width: 100%;
+        
     }
 
     .title{
@@ -202,24 +203,82 @@
         width: 100%;
         font-size: 30px;
     }
+    
+    .deleteRecord, .boss01, .boss02{
+        cursor: pointer;
+    }
+
+    .selector{
+        font-size: 30px;
+        float: right;
+        background-color: rgb(204, 253, 255);
+        padding: 0px 60px;
+        width: 5%;
+        text-align: center;
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;
+    }
+
+  
+  
+
 
     
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    var boss_list = ["A","B","C","D","E","F","G"];
+    var selected = 0;
 
+    function bossColor(boss,id){
+        switch(boss){
+            case "A":
+                $(id).css("background-color","rgb(204, 253, 255)");
+                break;
+            case "B":
+                $(id).css("background-color","rgb(50, 179, 108)");
+                break;
+            case "C":
+                $(id).css("background-color","rgb(130, 29, 130)");
+                break;
+            case "D":
+                $(id).css("background-color","blue");
+                break;
+            case "E":
+                $(id).css("background-color","lightgreen");
+                break;
+            case "F":
+                $(id).css("background-color","rgb(38, 179, 222)");
+                break; 
+            case "G":
+                $(id).css("background-color","rgb(240, 229, 26)");
+                break;   
+        }
+    }
 
     var bosses = [];
     var data = [];
-
+    var numData = 0;
     $(document).ready(function() {
         let list = localStorage.getItem("bossList");
         list = JSON.parse(list);
+        if(list!=undefined){
         list.forEach(player => {
-            $(".player_list").append('<div class="playerinlist"><span>'+player.Name+'</span><span>'+player.Bosses[0]+' '+player.Bosses[1]+'</span></div>');
+        numData++;
+        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
         });
+        $(".boss01").each(function(){
+            bossColor($(this).html(),this); 
+        })
+
+        $(".boss02").each(function(){
+            bossColor($(this).html(),this); 
+        })
+
         data = list;
+        }
     })
 
     $(document).ready(function(){
@@ -297,21 +356,30 @@
     }
 
     $("#add").click(function(){
+        bosses = bosses.sort();
         let player = {
             Name: $("#inputName").val(),
             Bosses: bosses,
             Hit: [false,false]
         }
         if(isValid(player)){
-            
-        
+        numData++;   
         data.push(player);
         $(".clicked").removeClass("clicked");
         $(".boss_select > span").css("background-color","rgb(194, 194, 194)");
         document.getElementById("inputName").value = "";
         bosses = [];
-        $(".player_list").append('<div class="playerinlist"><span>'+player.Name+'</span><span>'+player.Bosses[0]+' '+player.Bosses[1]+'</span></div>');
+        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white; display:block;">Delete</span></div>');
+        $(".boss01").each(function(){
+            bossColor($(this).html(),this); 
+        })
+
+        $(".boss02").each(function(){
+            bossColor($(this).html(),this); 
+        })
+   
         localStorage.setItem("bossList",JSON.stringify(data));
+
     }
     }) 
 
@@ -323,6 +391,42 @@
         alert("BOOM you deleted everything");
     })
 
+    $(".deleteRecord").click(function(){
+        const deleteName = $(this).parent().find(".Name").html(); 
+        $(this).parent().remove();     
+        data = data.filter(player => player.Name !== deleteName);
+        localStorage.setItem("bossList",JSON.stringify(data));
+    })
+
+    $(".selector").click(function(){
+        selected++;
+        if(selected<0){
+            selected = 6;
+        }
+        selected %=7
+        $(this).html(boss_list[selected]);
+        bossColor($(this).html(),this);
+    })
+    
+    $(".boss01").click(function(){
+        $(this).html(boss_list[selected]);
+        bossColor($(this).html(),this);
+        const changeName = $(this).parent().find(".Name").html();
+        const targetPlayer = data.findIndex(player => player.Name=== changeName);
+        data[targetPlayer].Bosses[0] = $(this).html(); 
+        data[targetPlayer].Hit[0] = false;
+        localStorage.setItem("bossList",JSON.stringify(data));
+    })
+
+    $(".boss02").click(function(){
+        $(this).html(boss_list[selected]);
+        bossColor($(this).html(),this);
+        const changeName = $(this).parent().find(".Name").html();
+        const targetPlayer = data.findIndex(player => player.Name=== changeName);
+        data[targetPlayer].Bosses[1] = $(this).html(); 
+        data[targetPlayer].Hit[1] = false;
+        localStorage.setItem("bossList",JSON.stringify(data));
+    })
 })
 </script>
 
@@ -348,7 +452,8 @@
                 </ul>
         </nav>
 
-        <h2 style="margin-left: 5px; margin:0; color:black; border-bottom: 1px solid black; box-sizing: border-box; padding: 10px; display:block; font-size: 30px;">Input a handsome guy here:</h2>
+        <h2 style="margin-left: 5px; margin:0; color:black; border-bottom: 1px solid black; box-sizing: border-box; padding: 10px; display:inline-block; font-size: 30p;">Input a handsome guy here:</h2>
+        <span class="selector">A</span>
         <div class="content_container">
         <div class="form_container">
             <div class="form_style">
@@ -370,7 +475,7 @@
         </div>
 
         <div class="display_container">
-            <div class="title"><span>Name</span><span>Bosses</span></div>
+            <div class="title"><span>Name</span><span>Boss 1</span><span>Boss 2</span><span>Delete</span></div>
             <div class="player_list"></div>
         </div>
     </div>
