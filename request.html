@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<script>
+
+const link= 'https://discordapp .com/api/v7/gateway/bot'
+const header = {
+    "Content-type": "application/json;charset=UTF-8",
+    "User-Agent": "DiscordBot ($https://billyovo.github.io/boss-list/index.html, $1)",
+    "Authorization": "Bot MTk4NjIyNDgzNDcxOTI1MjQ4.Cl2FMQ.ZnCjm1XVW7vRze4b7Cq4se7kKWs",
+};
+fetch(link,{
+    method: "GET",
+    headers: header
+}) 
+  .then(response => response.json())
+  .then(data => {
+      console.log(data);
+      alert(data);
+  });
+</script>
+<html>
+    <body>
+
+    </body>
+</html>
