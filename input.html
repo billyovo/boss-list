@@ -396,12 +396,7 @@
         }
     })
 
-    $(".deleteRecord").click(function(){
-        const deleteName = $(this).parent().find(".Name").html(); 
-        $(this).parent().remove();     
-        data = data.filter(player => player.Name !== deleteName);
-        localStorage.setItem("bossList",JSON.stringify(data));
-    })
+   
 
     $(".selector").click(function(){
         selected++;
@@ -433,6 +428,13 @@
         const targetPlayer = data.findIndex(player => player.Name=== changeName);
         data[targetPlayer].Bosses[1] = $(this).html(); 
         data[targetPlayer].Hit[1] = false;
+        localStorage.setItem("bossList",JSON.stringify(data));
+    })
+
+    $(document).on('click', '.deleteRecord', function() {
+        const deleteName = $(this).parent().find(".Name").html(); 
+        $(this).parent().remove();     
+        data = data.filter(player => player.Name !== deleteName);
         localStorage.setItem("bossList",JSON.stringify(data));
     })
 </script>
