@@ -128,6 +128,41 @@
     border-radius: 10px;
 }
 
+.footer{
+    width: 100%;
+    margin-top: 20px;
+}
+
+#sortboss{
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    overflow: hidden;
+    background-color: rgb(204, 253, 255);
+}
+
+.select{
+    position: absolute;
+    opacity: 0.5;
+    text-align: center;
+    padding: 0px 10px;
+    cursor: pointer;
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;
+}
+
+#left_select{
+    left: 0;
+}
+
+#right_select{
+    right: 0;
+}
+
+.select:hover{
+    opacity: 1;
+}
 
 
 
@@ -135,6 +170,35 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    let list = localStorage.getItem("bossList");
+        list = JSON.parse(list);
+
+
+    function selectPlayers(list, boss){
+       var result = [];
+       if(list!=null){ //null is amazing, break the entire website
+       list.forEach(player => {
+       if(player.Bosses[0]==boss&&!player.Hit[0]||player.Bosses[1]==boss&&!player.Hit[1]){
+        result.push(player.Name);
+       }
+    });
+    result.sort();
+    }
+    return result;
+}
+
+function selectPlayersAll(list, boss){
+       var result = [];
+       if(list!=null){ //null is amazing, break the entire website
+       list.forEach(player => {
+       if(player.Bosses[0]==boss||player.Bosses[1]==boss){
+        result.push(player.Name);
+       }
+    });
+    result.sort();
+    }
+    return result;
+}
 
     function bossColor(boss,id){
         switch(boss){
@@ -193,13 +257,15 @@
     var boss_hour = 19;
     var boss_min = 30;
     const boss01 = 19*60+30;
-    const boss02 = 21*60+30;    
+    const boss02 = 21*60+30; 
+    let isTomorrow = false;   
 
     var day = today.getDay();
 
     if(time_compare>boss02){ //after 9:30pm set tomorrow
         day++;
         day%=6;
+        isTomorrow = true;
     }
     if(time_compare>boss01&&time_compare<boss02){ //between 7:30 - 9:30 set next boss at 9:30
         boss_hour = 21;
@@ -218,13 +284,9 @@
     bossColor($("#boss02").html(),"#boss02");
 
     //read and write players
-    let list = localStorage.getItem("bossList");
-        list = JSON.parse(list);
+    
 
-    var boss01_player = [];
-    var boss02_player = [];
-
-    if(list!=null){ //null is amazing, break the entire website
+ /*   if(list!=null){ //null is amazing, break the entire website
     list.forEach(player => {
        if($("#boss01").html() == player.Bosses[0]&&!player.Hit[0] || $("#boss01").html() == player.Bosses[1]&&!player.Hit[1]){
            boss01_player.push(player.Name);
@@ -236,6 +298,9 @@
     });
     boss01_player.sort();
     boss02_player.sort();
+*/  
+    var boss01_player = selectPlayers(list,$("#boss01").html());
+    var boss02_player = selectPlayers(list,$("#boss02").html());
 
     boss01_player.forEach(element =>{
         $("#list01_start").append("<li>"+element+"</li>")
@@ -244,7 +309,7 @@
     boss02_player.forEach(element =>{
         $("#list02_start").append("<li>"+element+"</li>")
     })
-}
+//}
 
     //super lazy text area
     $("#boss01_text").html(boss01_player.toString().replaceAll(","," ")+","+boss_hour+":"+boss_min+"有空打"+":"+$("#boss01").html()+"boss:嗎~?");
@@ -273,7 +338,46 @@
     $(".sidebar_header > h1").click(function(){
         $("#sidebar").hide();  
        })
+
+    //boss sort things
+    const allBoss = ['A','B','C','D','E','F','G'];
+    let selected = 0;
+
+    function changeSelect(){
+        const target = $("#selected_boss").html();
+        const playerHit = selectPlayers(list,target);
+        const playerNotHit = selectPlayersAll(list,target);
+        $("#sorted01").html(playerHit.toString().replaceAll(","," "));
+        $("#sorted02").html(playerNotHit.toString().replaceAll(","," "));
+    }   
+
+    changeSelect();
+
+    $("#left_select").click(function(){
+        selected--;
+        if(selected <0){
+            selected=6;
+        }
+        selected%=7;
+        $("#selected_boss").html(allBoss[selected]);
+        $(".selected_display").html(allBoss[selected]);
+        bossColor($("#selected_boss").html(),"#sortboss");
+        changeSelect();
     })
+
+    $("#right_select").click(function(){
+        selected++;
+        if(selected <0){
+            selected=6;
+        }
+        selected%=7;
+        $("#selected_boss").html(allBoss[selected]);
+        $(".selected_display").html(allBoss[selected]);
+        bossColor($("#selected_boss").html(),"#sortboss");
+        changeSelect();
+    })
+
+})
 
 </script>
 <html>
@@ -318,6 +422,21 @@
             </textarea><br>
             <span class="clipboard" id="clipboard02">copy to clipboard!</span><span class="tooltip" id="tooltip02">Copied!</span>
         </div>
+    </div>
+
+    <div class="footer">
+        <div id="sortboss">
+            <span id="left_select" class="select">◀</span>
+            <span id="selected_boss">A</span>
+            <span id="right_select" class="select">▶</span>
+        </div>
+        <span style="font-size: 30px;">These people have </span>
+        <span class="selected_display" style="font-size: 30px;"> A</span><br>
+        <span id="sorted01" style="font-size: 20px;">gu</span><br>
+        <span style="font-size: 30px;">These people haven't hit </span>
+        <span class="selected_display" style="font-size: 30px;"> A</span><br>
+        <span id="sorted02" style="font-size: 20px;">gu</span><br>
+
     </div>
     </body>
 </html>

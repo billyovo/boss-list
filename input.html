@@ -279,6 +279,11 @@
             alert("YOU FIGHT SO MANY BOSSES AR?");
             return false;
         }
+
+        if(bosses.length<2){
+            alert("YOU ONLY FIGHT "+bosses.length+" BOSS AR?");
+            return false;
+        }
         if($("#inputName").val()===""){
             alert("WHO FIGHT BOSSES AR YOU AR? NO ONE KNOW YOU WOR");
             return false;
