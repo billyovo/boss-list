@@ -370,8 +370,8 @@
         $(".boss_select > span").css("background-color","rgb(194, 194, 194)");
         document.getElementById("inputName").value = "";
         bosses = [];
-        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white; display:block;">Delete</span></div>');
-        $(".boss01").each(function(){
+        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+            $(".boss01").each(function(){
             bossColor($(this).html(),this); 
         })
 
@@ -408,8 +408,11 @@
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
     })
-    
-    $(".boss01").click(function(){
+  
+})
+
+
+    $(document).on('click', '.boss01', function() {
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
         const changeName = $(this).parent().find(".Name").html();
@@ -417,9 +420,9 @@
         data[targetPlayer].Bosses[0] = $(this).html(); 
         data[targetPlayer].Hit[0] = false;
         localStorage.setItem("bossList",JSON.stringify(data));
-    })
+    });
 
-    $(".boss02").click(function(){
+    $(document).on('click', '.boss02', function() {
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
         const changeName = $(this).parent().find(".Name").html();
@@ -428,7 +431,6 @@
         data[targetPlayer].Hit[1] = false;
         localStorage.setItem("bossList",JSON.stringify(data));
     })
-})
 </script>
 
 <html>
