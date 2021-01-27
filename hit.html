@@ -76,21 +76,83 @@
 }
 
 .container{
-    display:flex;
+    display: flex;
     width: 100%;
     height: 100%;
 }
 
 .column{
     height: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: white;
 }
 
+.title{
+    display: flex;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+}
+
+.title span{
+    display: block;
+    width: 100%;
+    border: 1px solid navy;
+    box-sizing: border-box;
+    background-color: navy;
+    color: white;
+}
+
+.Hitted{
+    background-color: black;
+}
+
+.button{
+    background-color: black;
+    text-align: center;
+    width: 20%;
+}
+
+.boss01Data, .boss02Data{
+    cursor: pointer;
+    background-color: gray;
+}
 
 </style>
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
+        function bossColor(boss,id){
+        switch(boss){
+            case "A":
+                $(id).css("background-color","rgb(204, 253, 255)")
+                break;
+            case "B":
+                $(id).css("background-color","rgb(50, 179, 108)")
+                break;
+            case "C":
+                $(id).css("background-color","rgb(130, 29, 130)")
+                break;
+            case "D":
+                $(id).css("background-color","blue")
+                break;
+            case "E":
+                $(id).css("background-color","lightgreen")
+                break;
+            case "F":
+                $(id).css("background-color","rgb(38, 179, 222)")
+                break; 
+            case "G":
+                $(id).css("background-color","rgb(240, 229, 26)")
+                break;   
+        }
+    }
+
+    var list = localStorage.getItem("bossList");
+    list = JSON.parse(list);
 
     $("#header > span").click(function(){
         $("#sidebar").show();
@@ -99,7 +161,62 @@
     $(".sidebar_header > h1").click(function(){
         $("#sidebar").hide();  
        })
+
+    var numData = 0;
+
+    //find list
+    list.forEach(player => {
+        numData++;
+        $(".Name").append("<span class='NameData "+numData+"' style='display:block;'>"+player.Name+"</span>");
+        $(".boss01").append("<span class='boss01Data "+numData+"'' style='display:block;'>"+player.Bosses[0]+"</span>");
+        $(".boss02").append("<span class='boss02Data "+numData+"'' style='display:block;'>"+player.Bosses[1]+"</span>");
+        $(".addButton").append("<span class='button "+numData+"'' style='display:block;'>add</span>");
+
+        if(player.Hit[0]){
+            $('.boss01Data.'+numData).addClass("Hitted");
+        }
+
+        if(player.Hit[1]){
+            $('.boss02Data.'+numData).addClass("Hitted");
+        }
+    });
+
+    //fill boss colour~
+    $(".boss01Data, .boss02Data").each(function(){
+        if(!$(this).hasClass("Hitted")){
+            bossColor($(this).html(),this);
+        } 
     })
+
+
+    $(".boss01Data").click(function(){
+        //get second class
+       const numColumn = $(this).attr("class").split(' ')[1];
+
+       //find the clicked player
+       const targetPlayer = list.findIndex(player => player.Name === $(".Name ."+numColumn).html());
+       //hit jor!
+       list[targetPlayer].Hit[0] = !list[targetPlayer].Hit[0];
+       $(this).toggleClass('Hitted');
+       //colours
+       bossColor($(this).html(),this);
+       $(".Hitted").css('background-color','gray');
+       localStorage.setItem("bossList",JSON.stringify(list));
+    })
+
+    $(".boss02Data").click(function(){
+       const numColumn = $(this).attr("class").split(' ')[1]; 
+       const targetPlayer = list.findIndex(player => player.Name === $(".Name ."+numColumn).html());
+       list[targetPlayer].Hit[1] = !list[targetPlayer].Hit[1];
+       $(this).toggleClass('Hitted');
+       bossColor($(this).html(),this);
+       $(".Hitted").css('background-color','gray');
+       localStorage.setItem("bossList",JSON.stringify(list));
+    })
+
+//hit jor lor
+
+})
 
 </script>
 
@@ -123,9 +240,16 @@
                     <li><a href="timetable.html">See timetable</a></li>
                 </ul>
         </nav>
-    <div class="container">
-        <div class="column Name">
 
+    <div class="title">
+        <span>Name</span>
+        <span>Boss1</span>
+        <span>Boss2</span>
+        <span>Add and select</span>
+    </div>
+    <div class="container">
+        <div class="column Name" style="color: black;">
+            
         </div>
         <div class="column boss01">
     

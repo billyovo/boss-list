@@ -347,8 +347,8 @@ function selectPlayersAll(list, boss){
         const target = $("#selected_boss").html();
         const playerHit = selectPlayers(list,target);
         const playerNotHit = selectPlayersAll(list,target);
-        $("#sorted01").html(playerHit.toString().replaceAll(","," "));
-        $("#sorted02").html(playerNotHit.toString().replaceAll(","," "));
+        $("#sorted01").html(playerNotHit.toString().replaceAll(","," "));
+        $("#sorted02").html(playerHit.toString().replaceAll(","," "));
     }   
 
     changeSelect();
