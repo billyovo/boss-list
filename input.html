@@ -221,14 +221,7 @@
         cursor: pointer;
     }
 
-
-
-  
-  
-
-
-    
-
+ 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -270,7 +263,7 @@
         if(list!=undefined){
         list.forEach(player => {
         numData++;
-        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
         });
         $(".boss01").each(function(){
             bossColor($(this).html(),this); 
@@ -372,7 +365,7 @@
         $(".boss_select > span").css("background-color","rgb(194, 194, 194)");
         document.getElementById("inputName").value = "";
         bosses = [];
-        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name">'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
             $(".boss01").each(function(){
             bossColor($(this).html(),this); 
         })
@@ -407,15 +400,22 @@
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
     })
-  
+
+    //rename enter lose focus
+    $(".Name").keypress(function(e){ 
+        if(e.which==13){
+        $(this).blur();
+        }
+    });
 })
+
 
 
     $(document).on('click', '.boss01', function() {
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
         const changeName = $(this).parent().find(".Name").html();
-        const targetPlayer = data.findIndex(player => player.Name=== changeName);
+        const targetPlayer = data.findIndex(player => player.Name === changeName);
         data[targetPlayer].Bosses[0] = $(this).html(); 
         data[targetPlayer].Hit[0] = false;
         localStorage.setItem("bossList",JSON.stringify(data));
@@ -425,7 +425,7 @@
         $(this).html(boss_list[selected]);
         bossColor($(this).html(),this);
         const changeName = $(this).parent().find(".Name").html();
-        const targetPlayer = data.findIndex(player => player.Name=== changeName);
+        const targetPlayer = data.findIndex(player => player.Name === changeName);
         data[targetPlayer].Bosses[1] = $(this).html(); 
         data[targetPlayer].Hit[1] = false;
         localStorage.setItem("bossList",JSON.stringify(data));
@@ -437,6 +437,21 @@
         data = data.filter(player => player.Name !== deleteName);
         localStorage.setItem("bossList",JSON.stringify(data));
     })
+
+    //Rename
+    let tempName = "";
+    $(document).on('focus', '.Name', function() {
+        tempName = $(this).html();
+    })
+
+    $(document).on('blur', '.Name', function() {
+        const targetPlayer = data.findIndex(player => player.Name === tempName);
+        data[targetPlayer].Name = $(this).html();
+        localStorage.setItem("bossList",JSON.stringify(data));
+    })
+    
+    
+    
 </script>
 
 <html>
@@ -445,9 +460,6 @@
     </head>
     
     <body>
-    <div class="modal">
-    </div>
-
         <nav id="header">
             <span>☰</span>
             <h1 style="color: white; padding: 0; margin:0; padding-left: 12px ">How are you</h1>
