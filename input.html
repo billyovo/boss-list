@@ -460,19 +460,19 @@
     $(document).on('blur', '.Name', function() {
         //avoid duplicate name
         const trimmed = $(this).html().replace(/&nbsp;/g,'').replace(/\s/g,'');
+        $(this).html(trimmed);
         if(data.filter(player=>player.Name===trimmed).length!=0){
             if(trimmed!=tempName){
             alert(trimmed+" ALREADY EXIST LA WOR DIM AR PLAY AR?");
             $(this).html(tempName);
             }
         }
-
         else{
             const targetPlayer = data.findIndex(player => player.Name === tempName);
             data[targetPlayer].Name = trimmed;
             localStorage.setItem("bossList",JSON.stringify(data));
         }
-        $(this).html(trimmed);
+        
     })
     
     
