@@ -354,7 +354,7 @@
     $("#add").click(function(){
         bosses = bosses.sort();
         let player = {
-            Name: $("#inputName").val(),
+            Name: $("#inputName").val().replace(/&nbsp;/g,'').replace(/\s/g,''),
             Bosses: bosses,
             Hit: [false,false]
         }
@@ -401,12 +401,6 @@
         bossColor($(this).html(),this);
     })
 
-    //rename enter lose focus
-    $(".Name").keypress(function(e){ 
-        if(e.which==13){
-        $(this).blur();
-        }
-    });
 })
 
 
@@ -449,24 +443,36 @@
         data = data.filter(player => player.Name !== deleteName);
         localStorage.setItem("bossList",JSON.stringify(data));
     })
-
+    
     //Rename
     let tempName = "";
     $(document).on('focus', '.Name', function() {
         tempName = $(this).html();
     })
 
+    //lose focus on enter
+    $(document).on('keypress', '.Name', function(e) {
+        if(e.which==13){
+        $(this).blur();
+        }
+    })
+
     $(document).on('blur', '.Name', function() {
-        if(data.filter(player=>player.Name===$(this).html()).length!=0){ //avoid duplicate name
-            alert($(this).html()+" ALREADY EXIST LA WOR DIM AR PLAY AR?");
+        //avoid duplicate name
+        const trimmed = $(this).html().replace(/&nbsp;/g,'').replace(/\s/g,'');
+        if(data.filter(player=>player.Name===trimmed).length!=0){
+            if(trimmed!=tempName){
+            alert(trimmed+" ALREADY EXIST LA WOR DIM AR PLAY AR?");
             $(this).html(tempName);
+            }
         }
 
         else{
-        const targetPlayer = data.findIndex(player => player.Name === tempName);
-        data[targetPlayer].Name = $(this).html();
-        localStorage.setItem("bossList",JSON.stringify(data));
+            const targetPlayer = data.findIndex(player => player.Name === tempName);
+            data[targetPlayer].Name = trimmed;
+            localStorage.setItem("bossList",JSON.stringify(data));
         }
+        $(this).html(trimmed);
     })
     
     
