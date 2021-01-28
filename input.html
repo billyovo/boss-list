@@ -412,23 +412,35 @@
 
 
     $(document).on('click', '.boss01', function() {
-        $(this).html(boss_list[selected]);
-        bossColor($(this).html(),this);
-        const changeName = $(this).parent().find(".Name").html();
-        const targetPlayer = data.findIndex(player => player.Name === changeName);
-        data[targetPlayer].Bosses[0] = $(this).html(); 
-        data[targetPlayer].Hit[0] = false;
-        localStorage.setItem("bossList",JSON.stringify(data));
+        const bossAnother = $(this).parent().find(".boss02").html();
+        if(boss_list[selected]===bossAnother){
+            alert("BOTH IS "+bossAnother+"?? DIM AR FIGHT TWICE AR?");
+        }
+        else{
+            $(this).html(boss_list[selected]);
+            bossColor($(this).html(),this);
+            const changeName = $(this).parent().find(".Name").html();
+            const targetPlayer = data.findIndex(player => player.Name === changeName);
+            data[targetPlayer].Bosses[0] = $(this).html(); 
+            data[targetPlayer].Hit[0] = false;
+            localStorage.setItem("bossList",JSON.stringify(data));
+        }
     });
 
     $(document).on('click', '.boss02', function() {
-        $(this).html(boss_list[selected]);
-        bossColor($(this).html(),this);
-        const changeName = $(this).parent().find(".Name").html();
-        const targetPlayer = data.findIndex(player => player.Name === changeName);
-        data[targetPlayer].Bosses[1] = $(this).html(); 
-        data[targetPlayer].Hit[1] = false;
-        localStorage.setItem("bossList",JSON.stringify(data));
+        const bossAnother = $(this).parent().find(".boss01").html();
+        if(boss_list[selected]===bossAnother){
+            alert("BOTH IS "+bossAnother+"?? DIM AR FIGHT TWICE AR?");
+        }
+        else{
+            $(this).html(boss_list[selected]);
+            bossColor($(this).html(),this);
+            const changeName = $(this).parent().find(".Name").html();
+            const targetPlayer = data.findIndex(player => player.Name === changeName);
+            data[targetPlayer].Bosses[1] = $(this).html(); 
+            data[targetPlayer].Hit[1] = false;
+            localStorage.setItem("bossList",JSON.stringify(data));
+        }
     })
 
     $(document).on('click', '.deleteRecord', function() {
@@ -445,9 +457,16 @@
     })
 
     $(document).on('blur', '.Name', function() {
+        if(data.filter(player=>player.Name===$(this).html()).length!=0){ //avoid duplicate name
+            alert($(this).html()+" ALREADY EXIST LA WOR DIM AR PLAY AR?");
+            $(this).html(tempName);
+        }
+
+        else{
         const targetPlayer = data.findIndex(player => player.Name === tempName);
         data[targetPlayer].Name = $(this).html();
         localStorage.setItem("bossList",JSON.stringify(data));
+        }
     })
     
     
