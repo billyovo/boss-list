@@ -123,11 +123,24 @@
 }
 
 #copy{
-    padding: 10px 40px 10px 40px;
-    font-size: 25px;
+    font-size: 20px;
     margin: 10px;
     background-color: rgb(141, 241, 248);
     border: 1px solid white;
+    float: right;
+}
+
+#header .copyFloat #tooltip{
+    font-size: 16px;
+    background-color: rgb(110, 110, 110);
+    border-radius: 15px;
+    padding: 10px 30px 10px 30px;
+    text-align: center;
+    line-height: 20px;
+    float: right;
+    cursor: auto;
+    display: none;
+    vertical-align: middle;
 }
 
 
@@ -181,6 +194,7 @@
     var numData = 0;
 
     //find list
+    if(list!=null){
     list.forEach(player => {
         numData++;
         $(".Name").append("<span class='NameData "+numData+"' style='display:block; background-color: rgb(191, 206, 226)'>"+player.Name+"</span>");
@@ -195,7 +209,7 @@
             $('.boss02Data.'+numData).addClass("Hitted");
         }
     });
-
+    }
     //fill boss colour~
     $(".boss01Data, .boss02Data").each(function(){
         if(!$(this).hasClass("Hitted")){
@@ -236,7 +250,9 @@
             const item = new ClipboardItem({ "image/png": blob });
             navigator.clipboard.write([item]); 
         });
-    });
+    })
+    $("#tooltip").css("display","block");
+    $("#tooltip").fadeOut(1000);
 })
 })
 
@@ -252,6 +268,7 @@
             <div class="copyFloat">
             <h1 style="color: white; padding: 0; margin:0; padding-left: 12px; display: inline-block ">How are you</h1>
                 <button style="float: right;" id="copy">Copy</button>
+                <span id="tooltip">Copied~</span>
             </div>
         </nav>
         <nav id="sidebar">
