@@ -3,6 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 
+
 <style>
     html, body{
     min-height: 100%;
@@ -35,6 +36,7 @@
     width: 100%;
     padding-bottom: 5px;
     color: white;
+    overflow: hidden;
     
 }
 
@@ -120,8 +122,23 @@
     background-color: rgb(155, 153, 153);
 }
 
+#copy{
+    padding: 10px 40px 10px 40px;
+    font-size: 25px;
+    margin: 10px;
+    background-color: rgb(141, 241, 248);
+    border: 1px solid white;
+}
+
+
+
+
+</style>
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+
 <script>
     $(document).ready(function(){
         function bossColor(boss,id){
@@ -166,7 +183,7 @@
     //find list
     list.forEach(player => {
         numData++;
-        $(".Name").append("<span class='NameData "+numData+"' style='display:block;'>"+player.Name+"</span>");
+        $(".Name").append("<span class='NameData "+numData+"' style='display:block; background-color: rgb(191, 206, 226)'>"+player.Name+"</span>");
         $(".boss01").append("<span class='boss01Data "+numData+"'' style='display:block;'>"+player.Bosses[0]+"</span>");
         $(".boss02").append("<span class='boss02Data "+numData+"'' style='display:block;'>"+player.Bosses[1]+"</span>");
 
@@ -213,7 +230,14 @@
     })
 
 //hit jor lor
-
+    $("#copy").click(function(){
+        html2canvas(document.querySelector(".container")).then(canvas => {
+        canvas.toBlob(function(blob) { 
+            const item = new ClipboardItem({ "image/png": blob });
+            navigator.clipboard.write([item]); 
+        });
+    });
+})
 })
 
 </script>
@@ -225,7 +249,10 @@
     <body>
         <nav id="header">
             <span>☰</span>
-            <h1 style="color: white; padding: 0; margin:0; padding-left: 12px ">How are you</h1>
+            <div class="copyFloat">
+            <h1 style="color: white; padding: 0; margin:0; padding-left: 12px; display: inline-block ">How are you</h1>
+                <button style="float: right;" id="copy">Copy</button>
+            </div>
         </nav>
         <nav id="sidebar">
                 <div class="sidebar_header">
@@ -252,7 +279,7 @@
     
         </div>
         <div class="column boss02">
-
+            
         </div>
     </div>
 
