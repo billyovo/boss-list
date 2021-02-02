@@ -221,7 +221,34 @@
         cursor: pointer;
     }
 
- 
+    #import{
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .modal{
+        position: absolute;
+        display: none;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        background-color: rgb(128, 128, 128,0.8);
+        align-items: center;
+        justify-content: center;
+        cursor: progress;
+    }
+
+    .modal_message{
+        height: 500px;
+        width: 1000px;
+        background-color: white;
+        text-align: center;
+    }
+
+    .modal_message span{
+        margin: 10px;
+        font-size: 25px;
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -253,6 +280,16 @@
                 break;   
         }
     }
+    
+    function bossColorAll(){
+        $(".boss01").each(function(){
+            bossColor($(this).html(),this); 
+        })
+
+        $(".boss02").each(function(){
+            bossColor($(this).html(),this); 
+        })
+    }
 
     var bosses = [];
     var data = [];
@@ -262,16 +299,11 @@
         list = JSON.parse(list);
         if(list!=undefined){
         list.forEach(player => {
-        numData++;
-        $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+            numData++;
+            var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
         });
-        $(".boss01").each(function(){
-            bossColor($(this).html(),this); 
-        })
-
-        $(".boss02").each(function(){
-            bossColor($(this).html(),this); 
-        })
+        bossColorAll();
+        
 
         data = list;
         }
@@ -290,37 +322,8 @@
     $(".boss_select > span").click(function(){
         bosses.push($(this).attr("id"));
         if(!($(this).hasClass("clicked"))){
-        switch ($(this).attr("id")){
-            case 'A':
-                $(this).css("background-color","rgb(204, 253, 255)");
-                $(this).addClass("clicked");
-                break; 
-            case 'B':
-                $(this).css("background-color","rgb(50, 179, 108)");
-                $(this).addClass("clicked");
-                break;
-            case 'C':
-                $(this).css("background-color","rgb(130, 29, 130)");
-                $(this).addClass("clicked");
-                break;
-            case 'D':
-                $(this).css("background-color","blue");
-                $(this).addClass("clicked");
-                break;
-            case 'E':
-                $(this).css("background-color","lightgreen");
-                $(this).addClass("clicked");
-                break;
-            case 'F':
-                $(this).css("background-color","rgb(38, 179, 222)");
-                $(this).toggleClass("clicked");
-                break;
-                
-            case 'G':
-                $(this).css("background-color","rgb(240, 229, 26)");
-                $(this).toggleClass("clicked");
-                break; 
-        }
+            bossColor($(this).html()[0],this);
+            $(this).toggleClass("clicked");
     }
     else{
         $(this).css("background-color","rgb(194, 194, 194)");
@@ -366,14 +369,7 @@
         document.getElementById("inputName").value = "";
         bosses = [];
         $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
-            $(".boss01").each(function(){
-            bossColor($(this).html(),this); 
-        })
-
-        $(".boss02").each(function(){
-            bossColor($(this).html(),this); 
-        })
-   
+        bossColorAll();
         localStorage.setItem("bossList",JSON.stringify(data));
 
     }
@@ -401,6 +397,20 @@
         bossColor($(this).html(),this);
     })
 
+    $("#import").click(function(){
+
+        $(".modal").css("display","flex");
+
+        fetch('http://localhost:8080',{method: "GET"})
+        .then(response => response.json())
+        .then(data =>{ 
+            console.log(data);
+        })
+        .catch((error) => {
+            alert(error);
+        })
+        .finally(a=>{$(".modal").css("display","none")});
+    })
 })
 
 
@@ -472,7 +482,6 @@
             data[targetPlayer].Name = trimmed;
             localStorage.setItem("bossList",JSON.stringify(data));
         }
-        
     })
     
     
@@ -485,6 +494,14 @@
     </head>
     
     <body>
+        <div class="modal">
+            <div class="modal_message">
+                <br><br><br>
+               <span>Getting the message! Your cursor has also become the frustrating loading cursor!<br><br>
+                This will be closed after loading.
+            </span>
+            </div>
+        </div>
         <nav id="header">
             <span>☰</span>
             <h1 style="color: white; padding: 0; margin:0; padding-left: 12px ">How are you</h1>
@@ -521,6 +538,7 @@
             <span id="G">G 荒</span>
         </div>
         <span id="delete">Burn the current list!</span>
+        <img src="/assets/discord.png" id="import" height="100px" width="100px" alt="Import from discord" title="Import from discord">
         </div>
 
         <div class="display_container">
