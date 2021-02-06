@@ -258,14 +258,14 @@ function selectPlayersAll(list, boss){
     var boss_min = 30;
     const boss01 = 19*60+30;
     const boss02 = 21*60+30; 
-    let isTomorrow = false;   
+  //  let isTomorrow = false;   
 
     var day = today.getDay();
 
     if(time_compare>boss02){ //after 9:30pm set tomorrow
         day++;
-        day%=6;
-        isTomorrow = true;
+        day%=7;
+   //     isTomorrow = true;
     }
     if(time_compare>boss01&&time_compare<boss02){ //between 7:30 - 9:30 set next boss at 9:30
         boss_hour = 21;
