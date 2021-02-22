@@ -336,7 +336,7 @@
         Object.keys(pasteData).forEach(e =>{
             pasteData[e].forEach(player=>{
                 if(newList.some(listPlayer=>listPlayer.Name==player)){
-                    let index = newList.map(newListPlayer => newListPlayer.name).indexOf(player);
+                    let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
                     if(!newList[index].Bosses.length>=2){
                         newList[index].Bosses.push(e);
                     }
