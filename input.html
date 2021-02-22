@@ -249,6 +249,15 @@
         margin: 10px;
         font-size: 25px;
     }
+
+    #paste{
+        resize: none;
+        width: 90%;
+        height: 80%;
+        border: 2px solid;
+        border-radius: 10px;
+    }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -310,7 +319,51 @@
     })
 
     $(document).ready(function(){
+        
 
+    $('#paste').bind('input propertychange', function() {
+        $(".modal").css("display","none");
+        var pasteData = $("#paste").val();
+        var newList = [];
+        $("#paste").val("");
+        try{
+         pasteData = JSON.parse(pasteData);
+        }
+        catch(error){
+            alert("IT'S NOT VALID");
+            return;
+        }
+        Object.keys(pasteData).forEach(e =>{
+            pasteData[e].forEach(player=>{
+                if(newList.some(listPlayer=>listPlayer.Name==player)){
+                    let index = newList.map(newListPlayer => newListPlayer.name).indexOf(player);
+                    if(!newList[index].Bosses.length>=2){
+                        newList[index].Bosses.push(e);
+                    }
+                }
+                else{
+                    var newRecord = {
+                        Name: player,
+                        Bosses: [e],
+                        Hit: [false, false]
+                    }
+                    newList.push(newRecord);
+                }
+            });
+        });   //${e}  value=${obj[e]}
+        localStorage.removeItem("bossList");
+        localStorage.setItem("bossList",newList);
+        $(".playerinlist").remove();
+
+        numData;
+        newList.forEach(player => {
+            numData++;
+            var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+        });
+        bossColorAll();
+    });
+
+     
     $("#header > span").click(function(){
         $("#sidebar").show();
     })
@@ -398,9 +451,9 @@
     })
 
     $("#import").click(function(){
-
+        
         $(".modal").css("display","flex");
-
+        /*
         fetch('http://localhost:8080',{method: "GET"})
         .then(response => response.json())
         .then(data =>{ 
@@ -410,6 +463,7 @@
             alert(error);
         })
         .finally(a=>{$(".modal").css("display","none")});
+        */
     })
 })
 
@@ -496,10 +550,9 @@
     <body>
         <div class="modal">
             <div class="modal_message">
-                <br><br><br>
-               <span>Getting the message! Your cursor has also become the frustrating loading cursor!<br><br>
-                This will be closed after loading.
-            </span>
+                <br><br>
+               <span>Paste here</span><br>
+               <textarea id="paste" placeholder="hit that Ctrl+C!"></textarea>
             </div>
         </div>
         <nav id="header">
