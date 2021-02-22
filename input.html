@@ -352,7 +352,7 @@
             });
         });   //${e}  value=${obj[e]}
         localStorage.removeItem("bossList");
-        localStorage.setItem("bossList",newList);
+        localStorage.setItem("bossList",JSON.stringify(newList));
         $(".playerinlist").remove();
 
         numData = 0;
