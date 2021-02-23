@@ -2,7 +2,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script type="text/javascript" src="./js/utility.js"></script>
 
 <style>
     html, body{
@@ -148,68 +150,39 @@
 
 </style>
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-
 
 <script>
     $(document).ready(function(){
-        function bossColor(boss,id){
-        switch(boss){
-            case "A":
-                $(id).css("background-color","rgb(204, 253, 255)")
-                break;
-            case "B":
-                $(id).css("background-color","rgb(50, 179, 108)")
-                break;
-            case "C":
-                $(id).css("background-color","rgb(130, 29, 130)")
-                break;
-            case "D":
-                $(id).css("background-color","blue")
-                break;
-            case "E":
-                $(id).css("background-color","lightgreen")
-                break;
-            case "F":
-                $(id).css("background-color","rgb(38, 179, 222)")
-                break; 
-            case "G":
-                $(id).css("background-color","rgb(240, 229, 26)")
-                break;   
-        }
-    }
+        var list = localStorage.getItem("bossList");
+        list = JSON.parse(list);
+        var numData = 0;
 
-    var list = localStorage.getItem("bossList");
-    list = JSON.parse(list);
+        $("#header > span").click(function(){
+            $("#sidebar").show();
+        })
 
-    $("#header > span").click(function(){
-        $("#sidebar").show();
-    })
-
-    $(".sidebar_header > h1").click(function(){
-        $("#sidebar").hide();  
+        $(".sidebar_header > h1").click(function(){
+            $("#sidebar").hide();  
        })
 
-    var numData = 0;
 
     //find list
-    if(list!=null){
-    list.forEach(player => {
-        numData++;
-        $(".Name").append("<span class='NameData "+numData+"' style='display:block; background-color: rgb(191, 206, 226)'>"+player.Name+"</span>");
-        $(".boss01").append("<span class='boss01Data "+numData+"'' style='display:block;'>"+player.Bosses[0]+"</span>");
-        $(".boss02").append("<span class='boss02Data "+numData+"'' style='display:block;'>"+player.Bosses[1]+"</span>");
+        if(list!=null){
+            list.forEach(player => {
+                numData++;
+                $(".Name").append("<span class='NameData "+numData+"' style='display:block; background-color: rgb(191, 206, 226)'>"+player.Name+"</span>");
+                $(".boss01").append("<span class='boss01Data "+numData+"'' style='display:block;'>"+player.Bosses[0]+"</span>");
+                $(".boss02").append("<span class='boss02Data "+numData+"'' style='display:block;'>"+player.Bosses[1]+"</span>");
 
-        if(player.Hit[0]){
-            $('.boss01Data.'+numData).addClass("Hitted");
-        }
+                if(player.Hit[0]){
+                    $('.boss01Data.'+numData).addClass("Hitted");
+                }
 
-        if(player.Hit[1]){
-            $('.boss02Data.'+numData).addClass("Hitted");
+                if(player.Hit[1]){
+                    $('.boss02Data.'+numData).addClass("Hitted");
+                }
+            });
         }
-    });
-    }
     //fill boss colour~
     $(".boss01Data, .boss02Data").each(function(){
         if(!$(this).hasClass("Hitted")){

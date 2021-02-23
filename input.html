@@ -2,6 +2,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="./js/utility.js"></script>
 
 <style>
     html, body{
@@ -259,47 +261,12 @@
     }
 
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    
     var boss_list = ["A","B","C","D","E","F","G"];
     var selected = 0;
 
-    function bossColor(boss,id){
-        switch(boss){
-            case "A":
-                $(id).css("background-color","rgb(204, 253, 255)");
-                break;
-            case "B":
-                $(id).css("background-color","rgb(50, 179, 108)");
-                break;
-            case "C":
-                $(id).css("background-color","rgb(130, 29, 130)");
-                break;
-            case "D":
-                $(id).css("background-color","blue");
-                break;
-            case "E":
-                $(id).css("background-color","lightgreen");
-                break;
-            case "F":
-                $(id).css("background-color","rgb(38, 179, 222)");
-                break; 
-            case "G":
-                $(id).css("background-color","rgb(240, 229, 26)");
-                break;   
-        }
-    }
     
-    function bossColorAll(){
-        $(".boss01").each(function(){
-            bossColor($(this).html(),this); 
-        })
-
-        $(".boss02").each(function(){
-            bossColor($(this).html(),this); 
-        })
-    }
-
     var bosses = [];
     var data = [];
     var numData = 0;
@@ -308,14 +275,13 @@
         list = JSON.parse(list);
 
         if(list!=undefined){
-        list.forEach(player => {
-            numData++;
-            var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
-        });
-        bossColorAll();
-        
+            list.forEach(player => {
+                numData++;
+                var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+            });
 
-        data = list;
+            bossColorAll();
+            data = list;
         }
     })
 

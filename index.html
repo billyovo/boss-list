@@ -2,6 +2,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="./js/utility.js"></script>
 
 <style>
     html, body{
@@ -168,7 +170,8 @@
 
 
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <script>
     let list = localStorage.getItem("bossList");
         list = JSON.parse(list);
@@ -188,43 +191,19 @@ function selectPlayers(list, boss){
 }
 
 function selectPlayersAll(list, boss){
-       var result = [];
-       if(list!=null){ //null is amazing, break the entire website
+    var result = [];
+    if(list!=null){ //null is amazing, break the entire website
        list.forEach(player => {
-       if(player.Bosses[0]==boss||player.Bosses[1]==boss){
-        result.push(player.Name);
-       }
-    });
-    result.sort();
+            if(player.Bosses[0]==boss||player.Bosses[1]==boss){
+                result.push(player.Name);
+            }
+        });
+        result.sort();
     }
     return result;
 }
 
-    function bossColor(boss,id){
-        switch(boss){
-            case "A":
-                $(id).css("background-color","rgb(204, 253, 255)")
-                break;
-            case "B":
-                $(id).css("background-color","rgb(50, 179, 108)")
-                break;
-            case "C":
-                $(id).css("background-color","rgb(130, 29, 130)")
-                break;
-            case "D":
-                $(id).css("background-color","blue")
-                break;
-            case "E":
-                $(id).css("background-color","lightgreen")
-                break;
-            case "F":
-                $(id).css("background-color","rgb(38, 179, 222)")
-                break; 
-            case "G":
-                $(id).css("background-color","rgb(240, 229, 26)")
-                break;   
-        }
-    }
+    
 
     $(document).ready(function(){
 
@@ -258,14 +237,14 @@ function selectPlayersAll(list, boss){
     var boss_min = 30;
     const boss01 = 19*60+30;
     const boss02 = 21*60+30; 
-  //  let isTomorrow = false;   
+    let isTomorrow = false;   
 
     var day = today.getDay();
 
     if(time_compare>boss02){ //after 9:30pm set tomorrow
         day++;
-        day%=7;
-   //     isTomorrow = true;
+        day%=6;
+        isTomorrow = true;
     }
     if(time_compare>boss01&&time_compare<boss02){ //between 7:30 - 9:30 set next boss at 9:30
         boss_hour = 21;
@@ -284,21 +263,7 @@ function selectPlayersAll(list, boss){
     bossColor($("#boss02").html(),"#boss02");
 
     //read and write players
-    
-
- /*   if(list!=null){ //null is amazing, break the entire website
-    list.forEach(player => {
-       if($("#boss01").html() == player.Bosses[0]&&!player.Hit[0] || $("#boss01").html() == player.Bosses[1]&&!player.Hit[1]){
-           boss01_player.push(player.Name);
-       } 
-
-       if($("#boss02").html() == player.Bosses[0]&&!player.Hit[0] || $("#boss02").html() == player.Bosses[1]&&!player.Hit[1]){
-           boss02_player.push(player.Name);
-       } 
-    });
-    boss01_player.sort();
-    boss02_player.sort();
-*/  
+  
     var boss01_player = selectPlayers(list,$("#boss01").html());
     var boss02_player = selectPlayers(list,$("#boss02").html());
 
@@ -367,10 +332,10 @@ function selectPlayersAll(list, boss){
 
     $("#right_select").click(function(){
         selected++;
-        if(selected <0){
-            selected=6;
+        if(selected < 0){
+            selected = 6;
         }
-        selected%=7;
+        selected %= 7;
         $("#selected_boss").html(allBoss[selected]);
         $(".selected_display").html(allBoss[selected]);
         bossColor($("#selected_boss").html(),"#sortboss");
