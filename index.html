@@ -277,8 +277,8 @@ function selectPlayersAll(list, boss){
 //}
 
     //super lazy text area
-    $("#boss01_text").html(boss01_player.map(player => "@"+player).toString().replaceAll(","," ")+","+boss_hour+":"+boss_min+"有空打"+" :"+$("#boss01").html()+"boss:嗎~?");
-    $("#boss02_text").html(boss02_player.map(player => "@"+player).toString().replaceAll(","," ")+","+boss_hour+":"+boss_min+"有空打"+" :"+$("#boss02").html()+"boss:嗎~?");
+    $("#boss01_text").html(boss01_player.map(player => "@"+player).join(" ")+","+boss_hour+":"+boss_min+"有空打"+" :"+$("#boss01").html()+"boss:嗎~?");
+    $("#boss02_text").html(boss02_player.map(player => "@"+player).join(" ")+","+boss_hour+":"+boss_min+"有空打"+" :"+$("#boss02").html()+"boss:嗎~?");
 
     $("#clipboard01").click(function(){
         $("#boss01_text").select(); 
