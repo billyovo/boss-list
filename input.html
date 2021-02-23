@@ -360,7 +360,7 @@
 
         numData = 0;
         var invalidPlayers = [];
-        newList.forEach(player, index => {   
+        newList.forEach((player, index) => {   
             if(player.Bosses.length!=2){  //check for invalid players
                 invalidPlayers.push(player);
                 newList.splice(index,1);
