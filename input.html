@@ -306,6 +306,7 @@
     $(document).ready(function() {
         let list = localStorage.getItem("bossList");
         list = JSON.parse(list);
+
         if(list!=undefined){
         list.forEach(player => {
             numData++;
@@ -354,29 +355,31 @@
             });
         });   //${e}  value=${obj[e]}
 
-        localStorage.removeItem("bossList");
-        localStorage.setItem("bossList",JSON.stringify(newList)); //remove storage items
+        localStorage.removeItem("bossList");//remove storage items 
         $(".playerinlist").remove(); //remove display
-
+        
         numData = 0;
         var invalidPlayers = [];
-        newList.forEach((player, index) => {   
-            if(player.Bosses.length!=2){  //check for invalid players
+        var temp = newList;
+        temp.forEach((player, index) => {   
+            if(player.Bosses.length!==2){  //check for invalid players
                 invalidPlayers.push(player);
-                newList.splice(index,1);
+                newList[index] = "";  
             }
             else{
                 numData++;
                 var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
             }
         });
+        newList = newList.filter(player=> player !== "");
         bossColorAll();
+        localStorage.setItem("bossList",JSON.stringify(newList));
         data = newList;
 
         if(invalidPlayers.length!=0){     //alert invalid
-            var message = "Invalid Players Alert!\r\n";
+            var message = "Invalid Players Alert!\r\n--------------------------------\r\n";
             invalidPlayers.forEach(player=>{
-                message += player.Name+" : only clicked "+player.Bosses[0]+"\r\n"; 
+                message += player.Name+" : "+player.Bosses[0]+"\r\n"; 
             })
             alert(message);
         }
