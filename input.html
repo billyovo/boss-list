@@ -325,7 +325,8 @@
         $(".modal").css("display","none");
         var pasteData = $("#paste").val();
         var newList = [];
-        $("#paste").val("");
+        $("#paste").val("");      //get pasted json by users, check if valid
+
         try{
          pasteData = JSON.parse(pasteData);
         }
@@ -333,8 +334,9 @@
             alert("IT'S NOT VALID");
             return;
         }
-        Object.keys(pasteData).forEach(e =>{
-            pasteData[e].forEach(player=>{
+
+        Object.keys(pasteData).forEach(e =>{     //convert to the correct data structure
+            pasteData[e].forEach(player=>{ 
                 if(newList.some(listPlayer=>listPlayer.Name==player)){
                     let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
                     if(!(newList[index].Bosses.length>=2)){
@@ -351,17 +353,33 @@
                 }
             });
         });   //${e}  value=${obj[e]}
+
         localStorage.removeItem("bossList");
-        localStorage.setItem("bossList",JSON.stringify(newList));
-        $(".playerinlist").remove();
+        localStorage.setItem("bossList",JSON.stringify(newList)); //remove storage items
+        $(".playerinlist").remove(); //remove display
 
         numData = 0;
-        newList.forEach(player => {
-            numData++;
-            var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+        var invalidPlayers = [];
+        newList.forEach(player, index => {   
+            if(player.Bosses.length!=2){  //check for invalid players
+                invalidPlayers.push(player);
+                newList.splice(index,1);
+            }
+            else{
+                numData++;
+                var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+            }
         });
         bossColorAll();
         data = newList;
+
+        if(invalidPlayers.length!=0){     //alert invalid
+            var message = "Invalid Players Alert!\r\n";
+            invalidPlayers.forEach(player=>{
+                message += player.Name+" : only clicked "+player.Bosses[0]+"\r\n"; 
+            })
+            alert(message);
+        }
     });
 
      
