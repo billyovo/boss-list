@@ -306,9 +306,7 @@
             pasteData[e].forEach(player=>{ 
                 if(newList.some(listPlayer=>listPlayer.Name==player)){
                     let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
-                    if(!(newList[index].Bosses.length>=2)){
-                        newList[index].Bosses.push(e);
-                    }
+                    newList[index].Bosses.push(e);  
                 }
                 else{
                     var newRecord = {
@@ -345,7 +343,7 @@
         if(invalidPlayers.length!=0){     //alert invalid
             var message = "Invalid Players Alert!\r\n--------------------------------\r\n";
             invalidPlayers.forEach(player=>{
-                message += player.Name+" : "+player.Bosses[0]+"\r\n"; 
+                message += player.Name+" : "+player.Bosses.join(' ')+"\r\n"; 
             })
             alert(message);
         }
