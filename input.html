@@ -114,6 +114,12 @@
         color: white;
     }
 
+    .form_style::after{
+        content: "";
+        clear: both;
+        display: table;
+    }
+
     #add{
         float: right;
         position: relative;
@@ -224,11 +230,12 @@
     }
 
     #import{
-        margin: 10px;
+        margin: 0px 10px;
         cursor: pointer;
-        padding: 10px;
         border: rgb(114,137,218) 10px;
         border-radius: 100px;
+        float: right;
+        position: inherit;
     }
 
     .modal{
@@ -566,6 +573,7 @@
         <div class="form_container">
             <div class="form_style">
             <span>Name: </span><span id="add">Add</span>
+            <img src="./assets/discord.png" id="import" height="70px" width="70px" alt="Copy from discord" title="Copy from discord">
             <form>
                 <input type="text" placeholder="gay legs" id="inputName">
             </form>
@@ -580,7 +588,7 @@
             <span id="G">G 荒</span>
         </div>
         <span id="delete">Burn the current list!</span>
-        <img src="./assets/discord.png" id="import" height="100px" width="100px" alt="Copy from discord" title="Copy from discord">
+        
         </div>
 
         <div class="display_container">
