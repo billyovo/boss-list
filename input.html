@@ -400,8 +400,8 @@
 
         var newList = [];
 
-        Object.keys(pasteData).forEach(e =>{     //convert to the correct data structure
-            pasteData[e].forEach(player=>{ 
+        Object.keys(data).forEach(e =>{     //convert to the correct data structure
+            data[e].forEach(player=>{ 
                 if(newList.some(listPlayer=>listPlayer.Name==player)){
                     let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
                     newList[index].Bosses.push(e);  
