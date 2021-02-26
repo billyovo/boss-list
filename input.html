@@ -448,17 +448,18 @@
     $("#import").click(function(){
         
         $(".modal").css("display","flex");
-        /*
-        fetch('http://localhost:8080',{method: "GET"})
+        
+        fetch(process.env.ENDPOINT,{method: "GET"})
         .then(response => response.json())
         .then(data =>{ 
-            console.log(data);
+            alert(data);
+            alert(typeof(data));
         })
         .catch((error) => {
             alert(error);
         })
         .finally(a=>{$(".modal").css("display","none")});
-        */
+        
     })
 })
 
