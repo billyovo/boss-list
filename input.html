@@ -300,63 +300,7 @@
 
     $('#paste').bind('input propertychange', function() {
         $(".modal").css("display","none");
-        var pasteData = $("#paste").val();
-        var newList = [];
-        $("#paste").val("");      //get pasted json by users, check if valid
-
-        try{
-         pasteData = JSON.parse(pasteData);
-        }
-        catch(error){
-            alert("IT'S NOT VALID");
-            return;
-        }
-
-        Object.keys(pasteData).forEach(e =>{     //convert to the correct data structure
-            pasteData[e].forEach(player=>{ 
-                if(newList.some(listPlayer=>listPlayer.Name==player)){
-                    let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
-                    newList[index].Bosses.push(e);  
-                }
-                else{
-                    var newRecord = {
-                        Name: player,
-                        Bosses: [e],
-                        Hit: [false, false]
-                    }
-                    newList.push(newRecord);
-                }
-            });
-        });   //${e}  value=${obj[e]}
-
-        localStorage.removeItem("bossList");//remove storage items 
-        $(".playerinlist").remove(); //remove display
         
-        numData = 0;
-        var invalidPlayers = [];
-        var temp = newList;
-        temp.forEach((player, index) => {   
-            if(player.Bosses.length!==2){  //check for invalid players
-                invalidPlayers.push(player);
-                newList[index] = "";  
-            }
-            else{
-                numData++;
-                var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
-            }
-        });
-        newList = newList.filter(player=> player !== "");
-        bossColorAll();
-        localStorage.setItem("bossList",JSON.stringify(newList));
-        data = newList;
-
-        if(invalidPlayers.length!=0){     //alert invalid
-            var message = "Invalid Players Alert!\r\n--------------------------------\r\n";
-            invalidPlayers.forEach(player=>{
-                message += player.Name+" : "+player.Bosses.join(' ')+"\r\n"; 
-            })
-            alert(message);
-        }
     });
 
      
@@ -453,13 +397,59 @@
         fetch(ENDPOINT,{method: "GET"})
         .then(response => response.json())
         .then(data =>{ 
-            alert(data);
-            alert(typeof(data));
+
+        var newList = [];
+
+        Object.keys(pasteData).forEach(e =>{     //convert to the correct data structure
+            pasteData[e].forEach(player=>{ 
+                if(newList.some(listPlayer=>listPlayer.Name==player)){
+                    let index = newList.map(newListPlayer => newListPlayer.Name).indexOf(player);
+                    newList[index].Bosses.push(e);  
+                }
+                else{
+                    var newRecord = {
+                        Name: player,
+                        Bosses: [e],
+                        Hit: [false, false]
+                    }
+                    newList.push(newRecord);
+                }
+            });
+        });   //${e}  value=${obj[e]}
+
+        localStorage.removeItem("bossList");//remove storage items 
+        $(".playerinlist").remove(); //remove display
+        
+        numData = 0;
+        var invalidPlayers = [];
+        var temp = newList;
+        temp.forEach((player, index) => {   
+            if(player.Bosses.length!==2){  //check for invalid players
+                invalidPlayers.push(player);
+                newList[index] = "";  
+            }
+            else{
+                numData++;
+                var record = $(".player_list").append('<div class="playerinlist" id="'+numData+'"><span class="Name" contenteditable>'+player.Name+'</span><span class="boss01">'+player.Bosses[0]+'</span><span class="boss02">'+player.Bosses[1]+'</span><span class="deleteRecord" style="background-color: red; color: white;">Delete</span></div>');
+            }
+        });
+        newList = newList.filter(player=> player !== "");
+        bossColorAll();
+        localStorage.setItem("bossList",JSON.stringify(newList));
+        data = newList;
+
+        if(invalidPlayers.length!=0){     //alert invalid
+            var message = "Invalid Players Alert!\r\n--------------------------------\r\n";
+            invalidPlayers.forEach(player=>{
+                message += player.Name+" : "+player.Bosses.join(' ')+"\r\n"; 
+            })
+            alert(message);
+        }
         })
         .catch((error) => {
             alert(error);
         })
-        .finally(a=>{$(".modal").css("display","none")});
+        .finally(()=>{$(".modal").css("display","none")});
         
     })
 })
