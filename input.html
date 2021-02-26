@@ -4,6 +4,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="./js/utility.js"></script>
+<script type="text/javascript" src="./config.js"></script>
 
 <style>
     html, body{
@@ -449,7 +450,7 @@
         
         $(".modal").css("display","flex");
         
-        fetch(process.env.ENDPOINT,{method: "GET"})
+        fetch(ENDPOINT,{method: "GET"})
         .then(response => response.json())
         .then(data =>{ 
             alert(data);
